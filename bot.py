@@ -26,14 +26,14 @@ async def on_message(message):
     if message.content.startswith('!help'):
         response = '**This bot has multiple commands**\n' \
                    '**Chose from this list of commands:**\n' \
-                   '`!currentTemp` - returns the current temperature in the specified zip-code.\n' \
-                   'If no zip-code is specified, returns the temperature in Fairfax' \
+                   '`!currentTemp` - returns the current temperature in the specified zip-code. ' \
+                   'If no zip-code is specified, returns the temperature in Fairfax\n' \
                    '`!covidImmunizationRates` - returns the current covid vaccination rates in a specified state ' \
                    '(Virginia is the default option) \n' \
                    '`!currentEvents` - returns the current events happening in GMU\n'
         await message.channel.send(response)
 
-    # Command for current temperature in fairfax (uses OpenWeatherMap api)
+    # Command for current temperature (uses OpenWeatherMap api)
     # The bot uses zipcode 22030 as the location currently, we can change it later if we want
     if message.content.startswith('!currentTemp'):
         BASE_URL = "https://api.openweathermap.org/data/2.5/weather?"
