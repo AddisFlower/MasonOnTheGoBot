@@ -27,28 +27,29 @@ async def on_message(message):
         response = '**This bot has multiple commands**\n' \
                    '**Chose from this list of commands:**\n' \
                    '`!currentTemp` - returns the current temperature in the specified zip-code. ' \
-                   'If no zip-code is specified, returns the temperature in Fairfax\n' \
-                   '`!covidImmunizationRates` - returns the current covid vaccination rates in a specified state ' \
-                   '(Virginia is the default option) \n' \
+                   'If a zip-code is not specified, returns the temperature in Fairfax by default\n' \
+                   '`!covidImmunizationRates` - returns the current covid vaccination rates in a specified state. ' \
+                   'If a 2-letter state code is not specified, returns the rates in Virginia by default.\n' \
                    '`!currentEvents` - returns the current events happening in GMU\n'
         await message.channel.send(response)
 
     # Command for current temperature (uses OpenWeatherMap api)
     # The bot uses zipcode 22030 as the location currently, we can change it later if we want
     if message.content.startswith('!currentTemp'):
-        BASE_URL = "https://api.openweathermap.org/data/2.5/weather?"
-        ZIP_CODE = ''
+        base_url = "https://api.openweathermap.org/data/2.5/weather?"
+        zip_code = ''
         default = False
+
         # If the user doesn't specify a zip-code, the bot will give the temp for Fairfax
         if message.content == '!currentTemp':
             default = True
-            URL = BASE_URL + "q=22030,us&units=imperial&appid=" + API_KEY
+            url = base_url + "q=22030,us&units=imperial&appid=" + API_KEY
         # Otherwise, use the zip-code that the user specified
         else:
-            list = message.content.split()
-            ZIP_CODE = list[1]
-            URL = BASE_URL + "q=" + ZIP_CODE + ",us&units=imperial&appid=" + API_KEY
-        response = requests.get(URL)
+            command = message.content.split()
+            zip_code = command[1]
+            url = base_url + "q=" + zip_code + ",us&units=imperial&appid=" + API_KEY
+        response = requests.get(url)
 
         # If the request was successful
         if response.status_code == 200:
@@ -58,12 +59,44 @@ async def on_message(message):
             if default:
                 temperature = "The current temperature in Fairfax is **%.2f °F**" % temp
             else:
-                temperature = "The current temperature in zip-code " + ZIP_CODE + " is **%.2f °F**" %temp
+                temperature = "The current temperature in zip-code " + zip_code + " is **%.2f° F**" % temp
             await message.channel.send(temperature)
         # Otherwise, give the user a message that the request wasn't successful
         else:
             response = "Error getting temperature, try again later."
             await message.channel.send(response)
+
+    # Command for covid immunization rates (uses CDC api)
+    # Currently using Virginia as the default location, but we can change it later
+    if message.content.startswith('!covidImmunizationRates'):
+        base_url = "https://data.cdc.gov/resource/unsk-b7fc.json?location="
+        default = False
+        state = ''
+
+        # If the user doesn't specify a 2-letter state code after the command,
+        # the bot will give the immunization rates in Virginia by default.
+        if message.content == '!covidImmunizationRates':
+            default = True
+            url = base_url + "VA"
+        # Otherwise, use the 2-letter state code that the user specified
+        else:
+            command = message.content.split()
+            state = command[1].upper()
+            url = base_url + state
+
+        # If the request was successful
+        response = requests.get(url)
+        if response.status_code == 200:
+            data = response.json()
+            vaccination_rate = data[0]['series_complete_pop_pct']
+            if default:
+                result = "The current percentage of people who are fully vaccinated in VA is **" + vaccination_rate + "%** "
+            else:
+                result = "The current percentage of people who are fully vaccinated in " + state + " is **" + vaccination_rate + "%** "
+            await message.channel.send(result)
+        # Otherwise, give the user a message that the request wasn't successful
+        else:
+            await message.channel.send('Error getting vaccination records, try again later.')
 
 
 client.run(TOKEN)
