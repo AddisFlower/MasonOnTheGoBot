@@ -7,17 +7,69 @@ from bs4 import BeautifulSoup
 from requests_html import AsyncHTMLSession
 import asyncio
 from discord.ext import commands, tasks
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, time
 
 load_dotenv()
 TOKEN = os.getenv('TOKEN')
 API_KEY = os.getenv('API_KEY')
+CHANNEL_ID = os.getenv('CHANNEL_ID')  # Discord channel where the notification will be sent (will change this later to be modifiable by the user
+WHEN = time(7, 0, 0) # Time for the weather notification
 
 bot = commands.Bot(command_prefix='!')
 
 @bot.event
 async def on_ready():
+    bot.loop.create_task(timer())
     print(f'{bot.user} has connected to Discord!')
+
+# Basic daily weather notification (using GMU as the location for weather collection)
+async def daily_weather_notification():
+    await bot.wait_until_ready()
+    channel = bot.get_channel(int(CHANNEL_ID))
+    base_url = "https://api.openweathermap.org/data/2.5/onecall?lat=38.8308&lon=-77.3075&exclude=current,minutely,hourly,alerts&units=imperial&appid=" + API_KEY
+    response = requests.get(base_url)
+
+    # If the request was successful
+    if response.status_code == 200:
+        data = response.json()
+        daily = data['daily'][0]
+        temp_values = daily['temp']
+        feels_values = daily['feels_like']
+        day_temp = temp_values['day']
+        night_temp = temp_values['night']
+        day_feels = feels_values['day']
+        night_feels = feels_values['night']
+        humidity = daily['humidity']
+        weather = daily['weather'][0]
+        weather_description = weather['description']
+        result = "Hello! This is your MasonOnTheGo Bot with your daily weather report.\n\n "
+        result += "The temperature in Fairfax during the day today will be **%.2f °F**.\n" % day_temp
+        result += "However, it will feel like it is **%.2f °F**.\n\n" % day_feels
+        result += "The temperature in Fairfax during the night today will be **%.2f °F**.\n" % night_temp
+        result += "However, it will feel like it is **%.2f °F**.\n\n" % night_feels
+        result += "The average humidity today is **%.0f%%**.\n\n" % humidity
+        result += "Also, there will be " + weather_description + " today. Be well prepared!"
+        await channel.send(result)
+    else:
+        await channel.send('Error providing daily weather notification.')
+
+# Function that helps to time the notification so that it occurs every day at 7:00 AM
+async def timer():
+    now = datetime.now()
+    if now.time() > WHEN:
+        tomorrow = datetime.combine(now.date() + timedelta(days=1), time(0))
+        seconds = (tomorrow - now).total_seconds()
+        await asyncio.sleep(seconds)
+    while True:
+        now = datetime.now()
+        target_time = datetime.combine(now.date(), WHEN)
+        seconds_until_target = (target_time - now).total_seconds()
+        await asyncio.sleep(seconds_until_target)
+        await daily_weather_notification()
+        tomorrow = datetime.combine(now.date() + timedelta(days=1), time(0))
+        seconds = (tomorrow - now).total_seconds()
+        await asyncio.sleep(seconds)
+
 
 # Help command
 @bot.command(aliases=['botInfo', 'commands'])
