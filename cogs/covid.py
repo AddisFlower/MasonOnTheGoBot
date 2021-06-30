@@ -11,7 +11,7 @@ from datetime import datetime, timedelta, time
 
 API_KEY = os.getenv('API_KEY')
 CHANNEL_ID = os.getenv('CHANNEL_ID')
-WHEN = time(16, 31, 0)  # Time for the daily covid notification
+WHEN = time(7, 0, 0)  # Time for the daily covid notification
 
 
 class Covid(commands.Cog):
