@@ -11,17 +11,17 @@ from datetime import datetime, timedelta, time
 
 API_KEY = os.getenv('API_KEY')
 CHANNEL_ID = os.getenv('CHANNEL_ID')
-WHEN = time(7, 0, 0)  # Time for the daily covid notification
+WHEN = time(16, 31, 0)  # Time for the daily covid notification
 
 
 class Covid(commands.Cog):
     """ This is a cog with the covidImmunizationRates command and daily covid immunization notification background task(not yet implemented)."""
-    command_base_url = ''
+    base_url = ''
     notification_base_url = ''
 
     def __init__(self, bot):
         self.bot = bot
-        self.command_base_url = "https://data.cdc.gov/resource/unsk-b7fc.json?location="
+        self.base_url = "https://data.cdc.gov/resource/unsk-b7fc.json?location="
         self.bot.loop.create_task(self.timer())
 
     @commands.command(name='covidImmunizationRates', aliases=['covid', 'vaccinationRates', 'percentOfPeopleVaccinated'],
@@ -34,10 +34,10 @@ class Covid(commands.Cog):
         # the bot will give the immunization rates in Virginia by default.
         if state == '':
             default = True
-            url = self.command_base_url + "VA"
+            url = self.base_url + "VA"
         # Otherwise, use the 2-letter state code that the user specified
         else:
-            url = self.command_base_url + state.upper()
+            url = self.base_url + state.upper()
 
         # If the request was successful
         response = requests.get(url)
@@ -65,11 +65,27 @@ class Covid(commands.Cog):
             target_time = datetime.combine(now.date(), WHEN)
             seconds_until_target = (target_time - now).total_seconds()
             await asyncio.sleep(seconds_until_target)
-            await self.daily_forecast_notification()
+            await self.daily_covid_notification()
             tomorrow = datetime.combine(now.date() + timedelta(days=1), time(0))
             seconds = (tomorrow - now).total_seconds()
             await asyncio.sleep(seconds)
 
+    async def daily_covid_notification(self):
+        """Basic daily weather notification (using GMU as the location for weather collection)"""
+        url = self.base_url + "VA"
+        channel = self.bot.get_channel(int(CHANNEL_ID))
+
+        # If the request was successful
+        response = requests.get(url)
+        if response.status_code == 200:
+            data = response.json()
+            vaccination_rate = data[0]['series_complete_pop_pct']
+            result = "\nHello! This is your MasonOnTheGo Bot with your daily morning covid report.\n\n "
+            result += "The current percentage of people who are fully vaccinated in VA is **" + vaccination_rate + "%** "
+            await channel.send(result)
+        # Otherwise, give the user a message that the request wasn't successful
+        else:
+            await channel.send('Error providing daily covid notification.')
 def setup(bot):
     """Necessary setup function"""
     bot.add_cog(Covid(bot))
