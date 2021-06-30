@@ -11,7 +11,7 @@ from datetime import datetime, timedelta, time
 
 API_KEY = os.getenv('API_KEY')
 CHANNEL_ID = os.getenv('CHANNEL_ID')
-WHEN = time(7, 0, 0)  # Time for the daily forecast notification
+WHEN = time(16, 30, 0)  # Time for the daily forecast notification
 
 
 class Weather(commands.Cog):
@@ -92,7 +92,7 @@ class Weather(commands.Cog):
             humidity = daily['humidity']
             weather = daily['weather'][0]
             weather_description = weather['description']
-            result = "Hello! This is your MasonOnTheGo Bot with your daily weather report.\n\n "
+            result = "\nHello! This is your MasonOnTheGo Bot with your daily morning weather report.\n\n "
             result += "The temperature in Fairfax during the day today will be **%.2f °F**.\n" % day_temp
             result += "However, it will feel like it is **%.2f °F**.\n\n" % day_feels
             result += "The temperature in Fairfax during the night today will be **%.2f °F**.\n" % night_temp
