@@ -3,8 +3,6 @@ import json
 import requests
 import os
 from dotenv import load_dotenv
-from bs4 import BeautifulSoup
-from requests_html import AsyncHTMLSession
 import asyncio
 from discord.ext import commands, tasks
 from datetime import datetime, timedelta, time
