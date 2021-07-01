@@ -3,8 +3,6 @@ import json
 import requests
 import os
 from dotenv import load_dotenv
-from bs4 import BeautifulSoup
-from requests_html import AsyncHTMLSession
 import asyncio
 from discord.ext import commands, tasks
 from datetime import datetime, timedelta, time
@@ -15,7 +13,14 @@ class MasonHelpCommand(commands.HelpCommand):
         super().__init__()
 
     async def send_bot_help(self, mapping):
-        return await self.get_destination().send("“Mason On The Go” is the go to discord bot for any GMU student. This bot gives you the most accurate weather alerts for the Northern Virginia area. It also keeps you updated on the latest covid immunization rates in Virginia. This will help you know when Virginia will finally exit the pandemic. “Mason On The Go” is the only bot that keeps you up to date on 511 traffic to help you make smarter choices on what routes to take when you are going to campus or when you are travelling around Fairfax. Additionally, this bot will make sure that you don’t miss out on any important daily events happening at GMU. You will want to use this discord bot over other apps because it caters specifically to you, a GMU student.")
+        response = '**This bot has multiple commands**\n' \
+                   '**Chose from this list of commands:**\n' \
+                   '`!currentTemp` - returns the current temperature in the specified zip-code. ' \
+                   'If a zip-code is not specified, returns the temperature in Fairfax by default\n' \
+                   '`!covidImmunizationRates` - returns the current covid vaccination rates in a specified state. ' \
+                   'If a 2-letter state code is not specified, returns the rates in Virginia by default.\n' \
+                   '`!currentEvents` - returns the current events happening in GMU\n'
+        return await self.get_destination().send(response)
 
     async def send_command_help(self, command):
-        return self.get_destination().send(command.description);
+        return self.get_destination().send(command.description)
