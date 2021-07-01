@@ -20,7 +20,7 @@ class MasonHelpCommand(commands.HelpCommand):
                    '`!covidImmunizationRates` - returns the current covid vaccination rates in a specified state. ' \
                    'If a 2-letter state code is not specified, returns the rates in Virginia by default.\n' \
                    '`!currentEvents` - returns the current events happening in GMU\n'
-        return await self.get_destination().send(response)
+        await self.get_destination().send(response)
 
     async def send_command_help(self, command):
         return self.get_destination().send(command.description)
