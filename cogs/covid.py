@@ -84,6 +84,8 @@ class Covid(commands.Cog):
         # Otherwise, give the user a message that the request wasn't successful
         else:
             await channel.send('Error providing daily covid notification.')
+
+
 def setup(bot):
     """Necessary setup function"""
     bot.add_cog(Covid(bot))
