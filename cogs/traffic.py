@@ -28,13 +28,14 @@ class Traffic(commands.Cog):
     @commands.command(name='trafficTest', aliases=['traffic'],
                       description='Sends the latest traffic event')
     async def today(self, ctx):
+        
         try:     
         # Creation of query method using parameters
         tweets = tweepy.Cursor(api.user_timeline,id=username).items(count)
  
         # Pulling information from tweets iterable object
         tweets_list = [[tweet.created_at, tweet.id, tweet.text] for tweet in tweets]
-        ctx.send(tweet.text)
+        
  
         # Creation of dataframe from tweets list
         # Add or remove columns as you remove tweet information
@@ -42,6 +43,10 @@ class Traffic(commands.Cog):
         except BaseException as e:
              ctx.send('failed on_status,',str(e))
              time.sleep(3)
+    
+        for tweet in tweets_list: 
+            text = tweet.full_text
+            ctx.send(text)
 
 def setup(bot):
     """Necessary setup function"""
