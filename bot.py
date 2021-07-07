@@ -21,8 +21,17 @@ if __name__ == '__main__':
 
 @bot.event
 async def on_ready():
-    await bot.change_presence(activity=discord.Activity(type=discord.ActivityType.listening, name='your instructions :)'))
+    """Instructions for whenever the bot is running"""
+    await bot.change_presence(
+        activity=discord.Activity(type=discord.ActivityType.listening, name='your instructions :)'))
     print(f'{bot.user} has connected to Discord!')
+
+
+@bot.event
+async def on_command_error(ctx, error):
+    """Tells the user to give an existing command whenever he/she tries to invoke a command that does not exist."""
+    if isinstance(error, commands.CommandNotFound):
+        await ctx.send("Please use a command that is listed under the !help command.")
 
 
 bot.run(TOKEN)
