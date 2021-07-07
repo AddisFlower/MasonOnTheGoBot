@@ -1,12 +1,9 @@
-import discord
-import json
-import requests
 import os
-from dotenv import load_dotenv
-import asyncio
+import os
+from datetime import time
+
 import tweepy
-from discord.ext import commands, tasks
-from datetime import datetime, timedelta, time
+from discord.ext import commands
 
 API_KEY = os.getenv('T_API_Key')
 API_SECRET_KEY = os.getenv('T_API_Secret_Key')
@@ -19,12 +16,12 @@ api = tweepy.API(auth,wait_on_rate_limit=True)
 
 
 class Traffic(commands.Cog):
-    """ This is a cog with the currentTemp command and daily weather notification background task."""
+    """ This is a cog with the traffic updates functionality."""
 
     def __init__(self, bot):
         self.bot = bot
 
-    # Command for current event list
+    # Command for current traffic updates
     @commands.command(name='trafficTest', aliases=['traffic'],
                       description='Sends the latest traffic event')
     async def today(self, ctx):

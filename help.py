@@ -1,11 +1,4 @@
-import discord
-import json
-import requests
-import os
-from dotenv import load_dotenv
-import asyncio
-from discord.ext import commands, tasks
-from datetime import datetime, timedelta, time
+from discord.ext import commands
 
 
 class MasonHelpCommand(commands.HelpCommand):

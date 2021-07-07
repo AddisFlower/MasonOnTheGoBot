@@ -1,11 +1,8 @@
-import discord
-import json
-import requests
-import os
-from dotenv import load_dotenv
 import asyncio
-from discord.ext import commands, tasks
+import os
 from datetime import datetime, timedelta, time
+import requests
+from discord.ext import commands
 
 API_KEY = os.getenv('API_KEY')
 CHANNEL_ID = os.getenv('CHANNEL_ID')

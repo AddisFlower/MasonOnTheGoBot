@@ -5,7 +5,7 @@ from discord.ext import commands, tasks
 
 
 class Events(commands.Cog):
-    """ This is a cog with the currentTemp command and daily weather notification background task."""
+    """ This is a cog with the currentEvents command."""
 
     def __init__(self, bot):
         self.bot = bot

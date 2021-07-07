@@ -1,14 +1,10 @@
-import discord
-import json
-import requests
 import os
+from datetime import time
 from os import listdir
+
+from discord.ext import commands
 from dotenv import load_dotenv
-from bs4 import BeautifulSoup
-from requests_html import AsyncHTMLSession
-import asyncio
-from discord.ext import commands, tasks
-from datetime import datetime, timedelta, time
+
 from help import MasonHelpCommand
 
 load_dotenv()
