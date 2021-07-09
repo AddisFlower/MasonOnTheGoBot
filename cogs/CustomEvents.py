@@ -13,10 +13,13 @@ class CustomEvents(commands.Cog):
         await ctx.send("test")
 
 class Event():
-    def __init__(self, bot, name, time, location, description):
+    def __init__(self, bot, name, startDate, endDate, startTime, endTime, location, description):
         self.bot = bot
         self.eventName = name
-        self.eventTime = time
+        self.eventStartDate = startDate
+        self.eventEndDate = endDate
+        self.eventStartTime = startTime
+        self.eventEndTime = endTime
         self.eventLocation = location
         self.eventDescription = description
 
@@ -26,17 +29,29 @@ class Event():
     def setName(self, newName):
         self._eventName = newName
 
-    def getTime(self):
-        return self._eventTime
+    def getStartDate(self):
+        return self._eventStartDate
 
-    def setTime(self, newTime):
-        self._eventTime = newTime
+    def setStartDate(self, newStartDate):
+        self._eventStartDate = newStartDate
 
-    def getLocation(self):
-        return self._eventLocation
+    def getEndDate(self):
+        return self._eventEndDate
 
-    def setLocation(self, newLocation):
-        self._eventLocation = newLocation
+    def setEndDate(self, newEndDate):
+        self._eventEndDate = newEndDate
+
+    def getStartTime(self):
+        return self._eventStartTime
+
+    def setStartTime(self, newStartTime):
+        self._eventStartTime = newStartTime
+
+    def getEndTime(self):
+        return self._eventEndTime
+
+    def setLocation(self, newEndTime):
+        self._eventEndTime = newEndTime
 
     def getDescription(self):
         return self._eventDescription
