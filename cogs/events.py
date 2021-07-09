@@ -11,7 +11,7 @@ class Events(commands.Cog):
         self.bot = bot
 
     # Command for current event list
-    @commands.command(name='currentEvent', aliases=['currentEvents'],
+    @commands.command(name='currentGMUEvent', aliases=['currentGMUEvents'],
                       description='Sends the current event list')
     async def today(self, ctx):
         base_url = "https://mason360.gmu.edu/mobile_ws/v17/mobile_events_list"
