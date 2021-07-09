@@ -36,8 +36,8 @@ class CustomEvents(commands.Cog):
         for event in self.event_list:
             if str(event.get_event_id()) == str(event_id):
                 found = True
-                event.set_location(name)
-                await ctx.send("Event " + event.get_event_id() + " end time successfully changed to " + name)
+                event.set_name(name)
+                await ctx.send("Event " + str(event.get_event_id()) + " name successfully changed to " + name)
         if not found:
             await ctx.send("There is currently no event with the given id.")
 
@@ -48,8 +48,8 @@ class CustomEvents(commands.Cog):
         for event in self.event_list:
             if str(event.get_event_id()) == str(event_id):
                 found = True
-                event.set_location(start_date)
-                await ctx.send("Event " + event.get_event_id() + " end time successfully changed to " + start_date)
+                event.set_start_date(start_date)
+                await ctx.send("Event " + str(event.get_event_id()) + " start date successfully changed to " + start_date)
         if not found:
             await ctx.send("There is currently no event with the given id.")
 
@@ -60,8 +60,8 @@ class CustomEvents(commands.Cog):
         for event in self.event_list:
             if str(event.get_event_id()) == str(event_id):
                 found = True
-                event.set_location(end_date)
-                await ctx.send("Event " + event.get_event_id() + " end time successfully changed to " + end_date)
+                event.set_end_date(end_date)
+                await ctx.send("Event " + str(event.get_event_id()) + " end date successfully changed to " + end_date)
         if not found:
             await ctx.send("There is currently no event with the given id.")
 
@@ -72,8 +72,8 @@ class CustomEvents(commands.Cog):
         for event in self.event_list:
             if str(event.get_event_id()) == str(event_id):
                 found = True
-                event.set_location(start_time)
-                await ctx.send("Event " + event.get_event_id() + " end time successfully changed to " + start_time)
+                event.set_start_time(start_time)
+                await ctx.send("Event " + str(event.get_event_id()) + " start time successfully changed to " + start_time)
         if not found:
             await ctx.send("There is currently no event with the given id.")
 
@@ -84,8 +84,8 @@ class CustomEvents(commands.Cog):
         for event in self.event_list:
             if str(event.get_event_id()) == str(event_id):
                 found = True
-                event.set_location(end_time)
-                await ctx.send("Event " + event.get_event_id() + " end time successfully changed to " + end_time)
+                event.set_end_time(end_time)
+                await ctx.send("Event " + str(event.get_event_id()) + " end time successfully changed to " + end_time)
         if not found:
             await ctx.send("There is currently no event with the given id.")
 
@@ -96,7 +96,7 @@ class CustomEvents(commands.Cog):
             if str(event.get_event_id()) == str(event_id):
                 found = True
                 event.set_location(location)
-                await ctx.send("Event " + event.get_event_id() + " location successfully changed to " + location)
+                await ctx.send("Event " + str(event.get_event_id()) + " location successfully changed to " + location)
         if not found:
             await ctx.send("There is currently no event with the given id.")
 
@@ -105,9 +105,9 @@ class CustomEvents(commands.Cog):
         found = False
         for event in self.event_list:
             if str(event.get_event_id()) == str(event_id):
-                Found = True
+                found = True
                 event.set_description(description)
-                await ctx.send("Event " + event.get_event_id() + " description successfully changed to " + description)
+                await ctx.send("Event " + str(event.get_event_id()) + " description successfully changed to " + description)
         if not found:
             await ctx.send("There is currently no event with the given id.")
 
@@ -126,8 +126,11 @@ class CustomEvents(commands.Cog):
 
     @commands.command(name='clearEvents', description='Command that removes all the events that have been created.')
     async def clear_events(self, ctx):
-        self.event_list.clear()
-        await ctx.send("All events have been successfully removed!")
+        if len(self.event_list) == 0:
+            await ctx.send("There are no created events already!")
+        else:
+            self.event_list.clear()
+            await ctx.send("All events have been successfully removed!")
 
     @commands.command(name='removeEvent', description='Command that removes a specific event from the list of events')
     async def remove_event(self, ctx, event_id):
@@ -136,9 +139,9 @@ class CustomEvents(commands.Cog):
             if str(event_id) == str(event.event_id):
                 found = True
                 self.event_list.remove(event)
-                await ctx.send("Event " + event.get_event_id() + " has been successfully removed!")
+                await ctx.send("Event " + str(event.get_event_id()) + " has been successfully removed!")
         if not found:
-            await ctx.send("There is currently no event with the given id")
+            await ctx.send("There is currently no event with the given id.")
 
 
 class Event:
