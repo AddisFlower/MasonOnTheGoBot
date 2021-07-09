@@ -4,13 +4,17 @@ from discord.ext import commands
 
 class CustomEvents(commands.Cog):
 
+    event_list =[]
+
     def __init__(self, bot):
         self.bot = bot
 
     @commands.command(name='addCustomEvent', aliases=['addEvent'],
                       description='Adds a customer event to the event list created by the members of the discord server')
-    async def add_custom_event(self, ctx, title, start_date, end_date, description):
-        await ctx.send("test")
+    async def add_custom_event(self, ctx, name, startDate, endDate, startTime, endTime, location, description):
+        event = Event(name, startDate, endDate, startTime, endTime, location, description)
+        self.event_list.append(event)
+        print(self.event_list)
 
 class Event():
     def __init__(self, bot, name, startDate, endDate, startTime, endTime, location, description):
