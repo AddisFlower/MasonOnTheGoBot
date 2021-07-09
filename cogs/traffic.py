@@ -1,5 +1,4 @@
 import os
-import os
 from datetime import time
 
 import tweepy
