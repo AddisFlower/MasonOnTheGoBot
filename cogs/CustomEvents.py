@@ -3,14 +3,17 @@ from discord.ext import commands
 
 class CustomEvents(commands.Cog):
     event_list = []
+    event_num = 0
 
     def __init__(self, bot):
         self.bot = bot
 
     @commands.command(name='createEvent', aliases=['createEvents'],
-                      description='Command that creates a custom event with a unique key ands adds it to the event list created by the members of the discord server. Each argument needs to be seperated by a |.')
+                      description='Command that creates a custom event with a unique key ands adds it to the event list created by the members of the discord server. Each argument needs to be separated by a |.')
     async def create_event(self, ctx, *, args):
         arg_list = args.split(" | ")
+        if len(arg_list) != 7:
+            await ctx.send("Please enter the required arguments when using this command.")
         name = arg_list[0]
         start_date = arg_list[1]
         end_date = arg_list[2]
@@ -21,33 +24,121 @@ class CustomEvents(commands.Cog):
 
         event = Event(name, start_date, end_date, start_time, end_time, location, description)
         self.event_list.append(event)
-        event.set_event_id(len(self.event_list))
+        self.event_num += 1
+        event.set_event_id(self.event_num)
         response = "Event " + event.name + " with id " + str(event.get_event_id()) + " added!"
         await ctx.send(response)
 
+    @commands.command(name='setEventName',
+                      description='Command that sets the name of an event in the event list with the given id.')
+    async def set_event_name(self, ctx, event_id, *, name):
+        found = False
+        for event in self.event_list:
+            if str(event.get_event_id()) == str(event_id):
+                found = True
+                event.set_location(name)
+                await ctx.send("Event " + event.get_event_id() + " end time successfully changed to " + name)
+        if not found:
+            await ctx.send("There is currently no event with the given id.")
+
+    @commands.command(name='setEventStartDate',
+                      description='Command that sets the start date of an event in the event list with the given id.')
+    async def set_event_start_date(self, ctx, event_id, *, start_date):
+        found = False
+        for event in self.event_list:
+            if str(event.get_event_id()) == str(event_id):
+                found = True
+                event.set_location(start_date)
+                await ctx.send("Event " + event.get_event_id() + " end time successfully changed to " + start_date)
+        if not found:
+            await ctx.send("There is currently no event with the given id.")
+
+    @commands.command(name='setEventEndDate',
+                      description='Command that sets the end date of an event in the event list with the given id.')
+    async def set_event_end_date(self, ctx, event_id, *, end_date):
+        found = False
+        for event in self.event_list:
+            if str(event.get_event_id()) == str(event_id):
+                found = True
+                event.set_location(end_date)
+                await ctx.send("Event " + event.get_event_id() + " end time successfully changed to " + end_date)
+        if not found:
+            await ctx.send("There is currently no event with the given id.")
+
+    @commands.command(name='setEventStartTime',
+                      description='Command that sets the start time of an event in the event list with the given id.')
+    async def set_event_start_time(self, ctx, event_id, *, start_time):
+        found = False
+        for event in self.event_list:
+            if str(event.get_event_id()) == str(event_id):
+                found = True
+                event.set_location(start_time)
+                await ctx.send("Event " + event.get_event_id() + " end time successfully changed to " + start_time)
+        if not found:
+            await ctx.send("There is currently no event with the given id.")
+
+    @commands.command(name='setEventEndTime',
+                      description='Command that sets the end time of an event in the event list with the given id.')
+    async def set_event_end_time(self, ctx, event_id, *, end_time):
+        found = False
+        for event in self.event_list:
+            if str(event.get_event_id()) == str(event_id):
+                found = True
+                event.set_location(end_time)
+                await ctx.send("Event " + event.get_event_id() + " end time successfully changed to " + end_time)
+        if not found:
+            await ctx.send("There is currently no event with the given id.")
+
     @commands.command(name='setEventLocation', description='Command that sets the location of an event in the event list with the given id.')
     async def set_event_location(self, ctx, event_id, *, location):
+        found = False
         for event in self.event_list:
-            if str(event.event_id) == str(event_id):
+            if str(event.get_event_id()) == str(event_id):
+                found = True
                 event.set_location(location)
-                print(event.get_location())
+                await ctx.send("Event " + event.get_event_id() + " location successfully changed to " + location)
+        if not found:
+            await ctx.send("There is currently no event with the given id.")
 
     @commands.command(name='setEventDescription', description='Command that sets the description of the an event in the event list with the given id.')
     async def set_event_description(self, ctx, event_id, *, description):
+        found = False
         for event in self.event_list:
-            if str(event.event_id) == str(event_id):
+            if str(event.get_event_id()) == str(event_id):
+                Found = True
                 event.set_description(description)
-                print(event.get_description())
+                await ctx.send("Event " + event.get_event_id() + " description successfully changed to " + description)
+        if not found:
+            await ctx.send("There is currently no event with the given id.")
 
     @commands.command(name='displayEvents', description='Command that lists all the events that have been created.')
     async def display_events(self, ctx):
+        if len(self.event_list) == 0:
+            await ctx.send("There are currently no events in this discord server.")
+        else:
+            for event in self.event_list:
+                response = "**Event " + str(event.get_event_id()) + ": " + event.get_name() + "**\n"
+                response += " `From " + event.get_start_date() + " to " + event.get_end_date() + "\n"
+                response += " From " + event.get_start_time() + " to " + event.get_end_time() + "\n"
+                response += " Location: " + event.get_location() + "\n"
+                response += " Description: " + event.get_description() + "`\n"
+                await ctx.send(response)
+
+    @commands.command(name='clearEvents', description='Command that removes all the events that have been created.')
+    async def clear_events(self, ctx):
+        self.event_list.clear()
+        await ctx.send("All events have been successfully removed!")
+
+    @commands.command(name='removeEvent', description='Command that removes a specific event from the list of events')
+    async def remove_event(self, ctx, event_id):
+        found = False
         for event in self.event_list:
-            response = "**Event " + str(event.get_event_id()) + ": " + event.get_name() + "**\n"
-            response += " `From " + event.get_start_date() + " to " + event.get_end_date() + "\n"
-            response += " From " + event.get_start_time() + " to " + event.get_end_time() + "\n"
-            response += " Location: " + event.get_location() + "\n"
-            response += " Description: " + event.get_description() + "`\n"
-            await ctx.send(response)
+            if str(event_id) == str(event.event_id):
+                found = True
+                self.event_list.remove(event)
+                await ctx.send("Event " + event.get_event_id() + " has been successfully removed!")
+        if not found:
+            await ctx.send("There is currently no event with the given id")
 
 
 class Event:
