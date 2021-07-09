@@ -24,40 +24,40 @@ class Event():
         self.eventDescription = description
 
     def getName(self):
-        return self._eventTime
+        return self.eventName
 
     def setName(self, newName):
-        self._eventName = newName
+        self.eventName = newName
 
     def getStartDate(self):
-        return self._eventStartDate
+        return self.eventStartDate
 
     def setStartDate(self, newStartDate):
-        self._eventStartDate = newStartDate
+        self.eventStartDate = newStartDate
 
     def getEndDate(self):
-        return self._eventEndDate
+        return self.eventEndDate
 
     def setEndDate(self, newEndDate):
-        self._eventEndDate = newEndDate
+        self.eventEndDate = newEndDate
 
     def getStartTime(self):
-        return self._eventStartTime
+        return self.eventStartTime
 
     def setStartTime(self, newStartTime):
-        self._eventStartTime = newStartTime
+        self.eventStartTime = newStartTime
 
     def getEndTime(self):
-        return self._eventEndTime
+        return self.eventEndTime
 
     def setLocation(self, newEndTime):
-        self._eventEndTime = newEndTime
+        self.eventEndTime = newEndTime
 
     def getDescription(self):
-        return self._eventDescription
+        return self.eventDescription
 
     def setDescription(self, newDescription):
-        self._eventDescription = newDescription
+        self.eventDescription = newDescription
 
 def setup(bot):
     """Necessary setup function"""
