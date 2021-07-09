@@ -3,8 +3,7 @@ from discord.ext import commands
 
 
 class CustomEvents(commands.Cog):
-
-    event_list =[]
+    event_list = []
 
     def __init__(self, bot):
         self.bot = bot
@@ -14,11 +13,11 @@ class CustomEvents(commands.Cog):
     async def add_custom_event(self, ctx, name, startDate, endDate, startTime, endTime, location, description):
         event = Event(name, startDate, endDate, startTime, endTime, location, description)
         self.event_list.append(event)
-        print(self.event_list)
+        await ctx.send("Event added!")
 
-class Event():
-    def __init__(self, bot, name, startDate, endDate, startTime, endTime, location, description):
-        self.bot = bot
+
+class Event:
+    def __init__(self, name, startDate, endDate, startTime, endTime, location, description):
         self.eventName = name
         self.eventStartDate = startDate
         self.eventEndDate = endDate
@@ -62,6 +61,7 @@ class Event():
 
     def setDescription(self, newDescription):
         self.eventDescription = newDescription
+
 
 def setup(bot):
     """Necessary setup function"""
