@@ -8,23 +8,26 @@ class CustomEvents(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
-    @commands.command(name='addCustomEvent', aliases=['addEvent'],
-                      description='Adds a customer event to the event list created by the members of the discord server')
-    async def add_custom_event(self, ctx, name, startDate, endDate, startTime, endTime, location, description):
-        event = Event(name, startDate, endDate, startTime, endTime, location, description)
-        self.event_list.append(event)
-        await ctx.send("Event added!")
+    # @commands.command(name='addCustomEvent', aliases=['addEvent'],
+    #                   description='Adds a customer event to the event list created by the members of the discord server')
+    # async def add_custom_event(self, ctx, name, startDate, endDate, startTime, endTime, location, description):
+    #     event = Event(name, startDate, endDate, startTime, endTime, location, description)
+    #     self.event_list.append(event)
+    #     await ctx.send("Event added!")
 
+    @commands.command(name='createEvent', aliases=['createEvents'],
+                      description='Adds a customer event to the event list created by the members of the discord server')
+    async def create_event(self, ctx, event_id, *, event_name):
+        event = Event(event_name)
+        self.event_list.append(event)
+        response = "Event " + event.eventName + " with id " + event_id + " added!"
+        await ctx.send(response)
+        await ctx.send(len(self.event_list))
 
 class Event:
-    def __init__(self, name, startDate, endDate, startTime, endTime, location, description):
+    def __init__(self, name):
         self.eventName = name
-        self.eventStartDate = startDate
-        self.eventEndDate = endDate
-        self.eventStartTime = startTime
-        self.eventEndTime = endTime
-        self.eventLocation = location
-        self.eventDescription = description
+
 
     def getName(self):
         return self.eventName

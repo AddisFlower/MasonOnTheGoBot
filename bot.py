@@ -32,7 +32,7 @@ async def on_command_error(ctx, error):
     """Tells the user to give an existing command whenever he/she tries to invoke a command that does not exist."""
     if isinstance(error, commands.CommandNotFound):
         await ctx.send("Please use a command that is listed under the !help command.")
-    if isinstance(error, commands.MissingRequiredArgument)
-        await ctx.sentd("Please enter the required arguments when using this command.")
+    if isinstance(error, commands.MissingRequiredArgument):
+        await ctx.send("Please enter the required arguments when using this command.")
 
 bot.run(TOKEN)
