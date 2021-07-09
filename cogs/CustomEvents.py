@@ -8,9 +8,18 @@ class CustomEvents(commands.Cog):
         self.bot = bot
 
     @commands.command(name='createEvent', aliases=['createEvents'],
-                      description='Command that creates a custom event with a unique key ands adds it to the event list created by the members of the discord server')
-    async def create_event(self, ctx, *, event_name):
-        event = Event(event_name)
+                      description='Command that creates a custom event with a unique key ands adds it to the event list created by the members of the discord server. Each argument needs to be seperated by a |.')
+    async def create_event(self, ctx, *, args):
+        arg_list = args.split(" | ")
+        name = arg_list[0]
+        start_date = arg_list[1]
+        end_date = arg_list[2]
+        start_time = arg_list[3]
+        end_time = arg_list[4]
+        location = arg_list[5]
+        description = arg_list[6]
+
+        event = Event(name, start_date, end_date, start_time, end_time, location, description)
         self.event_list.append(event)
         event.set_event_id(len(self.event_list))
         response = "Event " + event.name + " with id " + str(event.get_event_id()) + " added!"
@@ -33,11 +42,16 @@ class CustomEvents(commands.Cog):
     @commands.command(name='displayEvents', description='Command that lists all the events that have been created.')
     async def display_events(self, ctx):
         for event in self.event_list:
-            response = "Event ID: " + str(event.get_event_id()) + ", Event Name: " + event.get_name() + ", Event Location: " + event.get_location() + ", Event Description: " + event.get_description()
+            response = "**Event " + str(event.get_event_id()) + ": " + event.get_name() + "**\n"
+            response += " `From " + event.get_start_date() + " to " + event.get_end_date() + "\n"
+            response += " From " + event.get_start_time() + " to " + event.get_end_time() + "\n"
+            response += " Location: " + event.get_location() + "\n"
+            response += " Description: " + event.get_description() + "`\n"
             await ctx.send(response)
 
 
 class Event:
+    name = ""
     event_id = ""
     start_date = ""
     end_date = ""
@@ -46,8 +60,14 @@ class Event:
     location = ""
     description = ""
 
-    def __init__(self, name):
+    def __init__(self, name, start_date, end_date, start_time, end_time, location, description):
         self.name = name
+        self.start_date = start_date
+        self.end_date = end_date
+        self.start_time = start_time
+        self.end_time = end_time
+        self.location = location
+        self.description = description
 
     def get_name(self):
         return self.name
