@@ -12,6 +12,11 @@ class CustomEvents(commands.Cog):
     async def add_custom_event(self, ctx, title, start_date, end_date, description):
         await ctx.send("test")
 
+class Events:
+    def __init__(self, name, time, description):
+        self.eventName = name
+        self.eventTime = time
+        self.eventDescription = description
 
 def setup(bot):
     """Necessary setup function"""
