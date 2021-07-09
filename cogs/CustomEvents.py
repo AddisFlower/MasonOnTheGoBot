@@ -12,8 +12,7 @@ class CustomEvents(commands.Cog):
     async def add_custom_event(self, ctx, title, start_date, end_date, description):
         await ctx.send("test")
 
-class Event(commands.Cog):
-    @commands.command(name='addCustomEvent', aliases=['addEvent'], description='Adds custom event to list of events.')
+class Event():
     def __init__(self, bot, name, time, location, description):
         self.bot = bot
         self.eventName = name
