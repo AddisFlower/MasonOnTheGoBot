@@ -1,7 +1,6 @@
 import os
 import asyncio
 from datetime import time
-
 import tweepy
 from discord.ext import commands, tasks
 
