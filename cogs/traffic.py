@@ -3,7 +3,6 @@ import asyncio
 from datetime import time
 
 import tweepy
-import discord
 from discord.ext import commands, tasks
 
 API_KEY = os.getenv('T_API_Key')
@@ -16,7 +15,6 @@ auth.set_access_token(ACCESS_TOKEN, ACCESS_TOKEN_SECRET)
 api = tweepy.API(auth, wait_on_rate_limit=True)
 
 CHANNEL_ID = os.getenv('CHANNEL_ID')
-client = discord.Client()
 
 
 class Traffic(commands.Cog):
@@ -24,7 +22,6 @@ class Traffic(commands.Cog):
 
     def __init__(self, bot):
         self.bot = bot
-
 
     # Command for current traffic updates
     @commands.command(name='trafficTest', aliases=['traffic'],
