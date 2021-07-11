@@ -21,6 +21,7 @@ class Traffic(commands.Cog):
 
     def __init__(self, bot):
         self.bot = bot
+        self.loop = True
 
     # Command for current traffic updates
     @commands.command(name='trafficTest', aliases=['traffic'],
@@ -30,7 +31,7 @@ class Traffic(commands.Cog):
         count = 1
         channel = self.bot.get_channel(int(CHANNEL_ID))
         tweet_id = -1
-        while True:
+        while self.loop:
             tweets = tweepy.Cursor(api.user_timeline, id=username).items(count)
             tweets_list = [[tweet.created_at, tweet.id, tweet.text] for tweet in tweets]
             tweet_info = tweets_list.pop(0)
@@ -41,7 +42,14 @@ class Traffic(commands.Cog):
                 x = text.split("https:")
                 message = x.pop(0)
                 await channel.send(message)
-            await asyncio.sleep(10)
+            await asyncio.sleep(1)
+
+    # Command for current traffic updates
+    @commands.command(name='endTraffic', aliases=['stopTraffic'],
+                      description='Sends the latest traffic event')
+    async def stop_traffic(self, ctx):
+        self.loop = False
+        await ctx.send('Traffic notifications stopped.')
 
 
 def setup(bot):
