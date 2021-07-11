@@ -23,7 +23,7 @@ class Traffic(commands.Cog):
         self.bot = bot
         self.loop = True
 
-    # Command for current traffic updates
+    # Command to look for and send new traffic updates
     @commands.command(name='trafficTest', aliases=['traffic'],
                       description='Sends the latest traffic event')
     async def today(self, ctx):
@@ -44,7 +44,7 @@ class Traffic(commands.Cog):
                 await channel.send(message)
             await asyncio.sleep(1)
 
-    # Command for current traffic updates
+    # Command to end traffic updates
     @commands.command(name='endTraffic', aliases=['stopTraffic'],
                       description='Sends the latest traffic event')
     async def stop_traffic(self, ctx):
