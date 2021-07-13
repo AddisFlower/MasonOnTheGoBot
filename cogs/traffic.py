@@ -24,8 +24,8 @@ class Traffic(commands.Cog):
         self.loop = True
 
     # Command to look for and send new traffic updates
-    @commands.command(name='trafficTest', aliases=['traffic'],
-                      description='Sends the latest traffic event')
+    @commands.command(name='startTraffic', aliases=['traffic'],
+                      description='Checks for new tweets from the user and sends them to the discord channel hosting the bot')
     async def today(self, ctx):
         username = '511northernva'
         count = 1
@@ -46,7 +46,7 @@ class Traffic(commands.Cog):
 
     # Command to end traffic updates
     @commands.command(name='endTraffic', aliases=['stopTraffic'],
-                      description='Sends the latest traffic event')
+                      description='Changes the loop variable to false to end the traffic notification loop')
     async def stop_traffic(self, ctx):
         self.loop = False
         await ctx.send('Traffic notifications stopped.')
