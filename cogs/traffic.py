@@ -25,12 +25,13 @@ class Traffic(commands.Cog):
 
     # Command to look for and send new traffic updates
     @commands.command(name='startTraffic', aliases=['traffic'],
-                      description='Checks for new tweets from the user and sends them to the discord channel hosting the bot')
+                      description='Checks for new tweets from the user and sends them to the bots discord channel')
     async def today(self, ctx):
         username = '511northernva'
         count = 1
         channel = self.bot.get_channel(int(CHANNEL_ID))
         tweet_id = -1
+        self.loop = True
         while self.loop:
             tweets = tweepy.Cursor(api.user_timeline, id=username).items(count)
             tweets_list = [[tweet.created_at, tweet.id, tweet.text] for tweet in tweets]
