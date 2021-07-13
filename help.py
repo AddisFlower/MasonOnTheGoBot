@@ -6,7 +6,9 @@ class MasonHelpCommand(commands.HelpCommand):
         super().__init__()
 
     async def send_bot_help(self, mapping):
-        response = '**This bot has multiple commands**\n' \
+        response = '**Welcome to the Mason On The Go Bot!**\n' \
+                   '**Your one stop shop for weather, events, traffic, and more!**\n' \
+                   '**This bot has multiple commands**\n' \
                    '**Chose from this list of commands:**\n' \
                    '`!currentTemp` - returns the current temperature in the specified zip-code. ' \
                    'If a zip-code is not specified, returns the temperature in Fairfax by default\n' \
@@ -26,7 +28,9 @@ class MasonHelpCommand(commands.HelpCommand):
                    '`!setEventDescription` - sets the description of an event in the event list with the given id.\n' \
                    '`!setEventName` - sets the name of an event in the event list with the given id.\n' \
                    '`!clearEvents` - clears all the events in the current event list.\n' \
-                   '`!removeEvent` - removes the event with the given id from the event list.'
+                   '`!removeEvent` - removes the event with the given id from the event list.\n' \
+                   '`!traffic` - begins sending live notifications for traffic events in Northern Virginia according to 511northernVA.\n' \
+                   '`!stopTraffic` - ends the live notification announcements for the traffic command so no new events are sent.'
         await self.get_destination().send(response)
 
     async def send_command_help(self, command):
