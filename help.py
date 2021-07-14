@@ -20,16 +20,15 @@ class MasonHelpCommand(commands.HelpCommand):
                    '`!stopTraffic` - ends the live notification announcements for the traffic command so no new events are sent.\n\n' \
                    '**The commands below pertain toward the custom event functionality of this bot**'
         custom = '`!createEvent` - creates a custom event with the given arguments that are separated by |.\n' \
-                 'Use the command like this: `!createEvent name | start date | end date | start time | end time | location | description`\n' \
+                 'Use this format: `!createEvent [name] | [start date] | [end date] | [start time] | [end time] | [location] | [description]`\n' \
                  '`!displayEvents` - returns all the created events in the discord server. \n' \
-                 '`!setEventName [eventID]` - sets the name of an event in the event list with the given id.\n ' \
-                 '`!setEventStartDate [eventID]` - sets the start date of an event in the event list with the given id.\n' \
-                 '`!setEventEndDate [eventID]` - sets the end date of an event in the event list with the given id.\n' \
-                 '`!setEventStartTime [eventID]` - sets the start time of an event in the event list with the given id.\n' \
-                 '`!setEventEndTime [eventID]` - sets the end time of an event in the event list with the given id.\n' \
-                 '`!setEventLocation [eventID]` - sets the location of an event in the event list with the given id.\n' \
-                 '`!setEventDescription [eventID]` - sets the description of an event in the event list with the given id.\n' \
-                 '`!setEventName [eventID]` - sets the name of an event in the event list with the given id.\n' \
+                 '`!setEventName [eventID] [newName]` - sets the name of an event in the event list with the given id.\n ' \
+                 '`!setEventStartDate [eventID] [new start date]` - sets the start date of an event in the event list with the given id.\n' \
+                 '`!setEventEndDate [eventID] [new end date]` - sets the end date of an event in the event list with the given id.\n' \
+                 '`!setEventStartTime [eventID] [new start time]` - sets the start time of an event in the event list with the given id.\n' \
+                 '`!setEventEndTime [eventID] [new end time]` - sets the end time of an event in the event list with the given id.\n' \
+                 '`!setEventLocation [eventID] [new location]` - sets the location of an event in the event list with the given id.\n' \
+                 '`!setEventDescription [eventID] [new description]` - sets the description of an event in the event list with the given id.\n' \
                  '`!clearEvents ` - clears all the events in the current event list.\n' \
                  '`!removeEvent [eventID]` - removes the event with the given id from the event list.'
 
