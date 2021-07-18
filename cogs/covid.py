@@ -1,12 +1,12 @@
 import asyncio
 import os
 from datetime import datetime, timedelta, time
-
 import requests
 from discord.ext import commands
+from bot import channel_id
+
 
 API_KEY = os.getenv('API_KEY')
-CHANNEL_ID = os.getenv('CHANNEL_ID')
 WHEN = time(7, 0, 0)  # Time for the daily covid notification
 
 
@@ -69,7 +69,7 @@ class Covid(commands.Cog):
     async def daily_covid_notification(self):
         """Basic daily weather notification (using GMU as the location for weather collection)"""
         url = self.base_url + "VA"
-        channel = self.bot.get_channel(int(CHANNEL_ID))
+        channel = self.bot.get_channel(channel_id)
 
         # If the request was successful
         response = requests.get(url)

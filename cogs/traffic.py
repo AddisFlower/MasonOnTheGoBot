@@ -1,8 +1,8 @@
 import os
 import asyncio
-from datetime import time
 import tweepy
-from discord.ext import commands, tasks
+from discord.ext import commands
+from bot import channel_id
 
 API_KEY = os.getenv('T_API_Key')
 API_SECRET_KEY = os.getenv('T_API_Secret_Key')
@@ -12,8 +12,6 @@ ACCESS_TOKEN_SECRET = os.getenv('T_Access_Token_Secret')
 auth = tweepy.OAuthHandler(API_KEY, API_SECRET_KEY)
 auth.set_access_token(ACCESS_TOKEN, ACCESS_TOKEN_SECRET)
 api = tweepy.API(auth, wait_on_rate_limit=True)
-
-CHANNEL_ID = os.getenv('CHANNEL_ID')
 
 
 class Traffic(commands.Cog):
@@ -29,7 +27,7 @@ class Traffic(commands.Cog):
     async def today(self, ctx):
         username = '511northernva'
         count = 1
-        channel = self.bot.get_channel(int(CHANNEL_ID))
+        channel = self.bot.get_channel(channel_id)
         tweet_id = -1
         self.loop = True
         while self.loop:
