@@ -3,11 +3,9 @@ import os
 from datetime import datetime, timedelta, time
 import requests
 from discord.ext import commands
-from bot import channel_id
 
 
 API_KEY = os.getenv('API_KEY')
-WHEN = time(7, 0, 0)  # Time for the daily covid notification
 
 
 class Covid(commands.Cog):
@@ -25,7 +23,6 @@ class Covid(commands.Cog):
     async def current_rates(self, ctx, state=''):
         """Command for covid immunization rates (uses CDC api). Currently using Virginia as the default location, but we can change it later."""
         default = False
-
         # If the user doesn't specify a 2-letter state code after the command,
         # the bot will give the immunization rates in Virginia by default.
         if state == '':
@@ -52,13 +49,13 @@ class Covid(commands.Cog):
     async def timer(self):
         """Function that helps time the notification so that it occurs every day at 7:00 AM"""
         now = datetime.now()
-        if now.time() > WHEN:
+        if now.time() > self.bot.WHEN:
             tomorrow = datetime.combine(now.date() + timedelta(days=1), time(0))
             seconds = (tomorrow - now).total_seconds()
             await asyncio.sleep(seconds)
         while True:
             now = datetime.now()
-            target_time = datetime.combine(now.date(), WHEN)
+            target_time = datetime.combine(now.date(), self.bot.WHEN)
             seconds_until_target = (target_time - now).total_seconds()
             await asyncio.sleep(seconds_until_target)
             await self.daily_covid_notification()
@@ -69,7 +66,7 @@ class Covid(commands.Cog):
     async def daily_covid_notification(self):
         """Basic daily weather notification (using GMU as the location for weather collection)"""
         url = self.base_url + "VA"
-        channel = self.bot.get_channel(channel_id)
+        channel = self.bot.get_channel(self.bot.channel_id)
 
         # If the request was successful
         response = requests.get(url)

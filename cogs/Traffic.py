@@ -2,7 +2,6 @@ import os
 import asyncio
 import tweepy
 from discord.ext import commands
-from bot import channel_id
 
 API_KEY = os.getenv('T_API_Key')
 API_SECRET_KEY = os.getenv('T_API_Secret_Key')
@@ -27,7 +26,7 @@ class Traffic(commands.Cog):
     async def today(self, ctx):
         username = '511northernva'
         count = 1
-        channel = self.bot.get_channel(channel_id)
+        channel = self.bot.get_channel(self.bot.channel_id)
         tweet_id = -1
         self.loop = True
         while self.loop:
