@@ -1,7 +1,7 @@
 import datetime
 import requests
 import bs4
-from discord.ext import commands, tasks
+from discord.ext import commands
 
 
 class Events(commands.Cog):
