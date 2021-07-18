@@ -16,6 +16,7 @@ class MasonHelpCommand(commands.HelpCommand):
                    '`!covidImmunizationRates [state code]` - returns the current covid vaccination rates in a specified state. ' \
                    'If a 2-letter state code is not specified, returns the rates in Virginia by default.\n' \
                    '`!currentGMUEvents` - returns the current events happening in GMU\n' \
+                   '`!setNotificationChannel [channel name]` - sets the channel where the notifications and traffic updates are sent.\n\n' \
                    '`!traffic` - begins sending live notifications for traffic events in Northern Virginia according to 511northernVA.\n' \
                    '`!stopTraffic` - ends the live notification announcements for the traffic command so no new events are sent.\n\n' \
                    '**The commands below pertain toward the custom event functionality of this bot**'
